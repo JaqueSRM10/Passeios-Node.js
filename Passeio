@@ -1,0 +1,43 @@
+
+// dependencies
+const readline = require('readline').createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+class Passenger {
+  constructor(name, seat, activities) {
+    this.name = name;
+    this.seat = seat;
+    this.activities = activities;
+  }
+}
+
+class TourOrganizer {
+  constructor() {
+    this.passengers = [];
+  }
+
+  addPassenger(name, seat, activities) {
+    const passenger = new Passenger(name, seat, activities);
+    this.passengers.push(passenger);
+  }
+
+  listPassengers() {
+    this.passengers.forEach(p => {
+      console.log(`Name: ${p.name}, Seat: ${p.seat}, Activities: ${p.activities.join(', ')}`);
+    });
+  }
+}
+
+const organizer = new TourOrganizer();
+
+readline.question('Passenger Name: ', name => {
+  readline.question('Seat Number: ', seat => {
+    readline.question('Activities (comma separated): ', activities => {
+      organizer.addPassenger(name, seat, activities.split(',').map(a => a.trim()));
+      organizer.listPassengers();
+      readline.close();
+    });
+  });
+});
